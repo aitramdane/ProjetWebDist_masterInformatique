@@ -1,0 +1,48 @@
+
+<div class= "div-img" [ngStyle]="{ 'backgroundImage': getUrl() }">
+<app-message-modal *ngIf="displayMessageModal" [messageModal]="messageModal"></app-message-modal>
+  
+  <div class="div-add-reservation">
+    <fieldset>
+          <legend><b>{{titleSaveOrUpdate}}</b></legend>
+        <form #addReservationForm="ngForm" (ngSubmit)="saveReservation(addReservationForm)">
+           <!--span><label for="Email" class="reservation-label">Email:</label><input name="email" class="reservation-input" type="text" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" required [(ngModel)]="reservation.client.email" [readonly]="disabledBackground"></span-->
+           <span><label for="clientId" class="reservation-label">Client Id :</label><input name="id" class="reservation-input" type="Number" required [(ngModel)]="reservation.clientId" [readonly]="disabledBackground"></span>
+           <span><label for="Room Id" class="reservation-label">Room No:</label><input name="roomId" class="reservation-input" type="Number" required  [(ngModel)]="reservation.roomId" [readonly]="disabledBackground"></span>
+           <span><label for="Number Adults" class="reservation-label">Adults Number:</label><input name="reservation.Number_adults" class="reservation-input" type="Number" required  [(ngModel)]="reservation.number_adults" [readonly]="disabledBackground"></span>
+           <span><label for="Number children" class="reservation-label">Children Numbre:</label><input name="reservation.Number_children" class="reservation-input" type="Number" required  [(ngModel)]="reservation.number_children" [readonly]="disabledBackground"></span>
+           <span><label for="Reservation Date" class="reservation-label">Reservation Date:</label><input name="reservation.reservationDate" class="reservation-input" type="text" required  [(ngModel)]="reservation.reservationDate" [readonly]="disabledBackground"></span>
+          <span><label for="Check Date In" class="reservation-label">Check date in:</label><input name="checkDateIn" class="reservation-input" type="text" required [(ngModel)]="reservation.check_date_in" [matDatepicker]="myDatepicker1" [readonly]="disabledBackground" placeholder="DD/MM/YYYY"><mat-datepicker-toggle matSuffix [for] = "myDatepicker1"></mat-datepicker-toggle><mat-datepicker #myDatepicker1 [disabled]="disabledBackground"></mat-datepicker></span>
+           <span><label for="Check Date Out" class="reservation-label">Check date out::</label><input name="checkDateOut" class="reservation-input" type="text" required [(ngModel)]="reservation.check_date_out" [matDatepicker]="myDatepicker2" [readonly]="disabledBackground" placeholder="DD/MM/YYYY"><mat-datepicker-toggle matSuffix [for] = "myDatepicker2"></mat-datepicker-toggle><mat-datepicker #myDatepicker2 [disabled]="disabledBackground"></mat-datepicker><input [value]="actionButton" class="reservation-submit-button" type=submit [disabled]="!addReservationForm.form.valid"/></span>
+        </form>
+        <button class="clear-form-button" (click)="clearForm(addReservationForm)" [disabled]="disabledBackground">Clear Form</button>
+    </fieldset>
+  </div>
+  <div class="div-search-reservation" ng-disabled="disabledBackground"> 
+    <fieldset class="fieldset-search-reservation">
+          <legend><b>Search Reservation Form</b></legend>
+        <form #searchReservationForm="ngForm" (ngSubmit)="searchReservationsByReservationDate(searchReservationForm)">
+           <label for="Search By" class="search-label">Search By:</label><select class="search-select" name="type" required [(ngModel)]="displayType"><option *ngFor="let type of types" [value]="type">{{type}}</option></select>
+         <ng-container *ngIf="displayType ==='Reservation Date'"><label for="Reservation Date" class="search-label">Maximum date:</label><input name="reservationDate" class="search-input" type="text" required [(ngModel)]=reservationDate  [matDatepicker]="myDatepicker3" [readonly]="disabledBackground" placeholder="DD/MM/YYYY"><mat-datepicker-toggle class="search-matDatePicker3" matSuffix [for] = "myDatepicker3"></mat-datepicker-toggle><mat-datepicker #myDatepicker3></mat-datepicker></ng-container>
+         <input value="Search" class="search-submit-button" type=submit [disabled]="!searchReservationForm.form.valid" [readonly]="disabledBackground"/>
+        </form>
+        <br/><br/>
+        <ng-container *ngIf="isNoResult && isFormSubmitted"><span class="span-no-result">No Result</span></ng-container>
+        <ng-container *ngIf="!isNoResult && isFormSubmitted">
+           <table>
+              <tr><th *ngFor="let head of headsTab">{{head}}</th><th></th><th></th></tr>
+              <tr class="" *ngFor="let reservation of searchReservationsResult">
+                <td>{{reservation.reservationId}}</td>
+                <td>{{reservation.roomId}}</td>
+                <td>{{reservation.clientId}}</td>
+                <td>{{reservation.check_date_in}}</td>
+                <td>{{reservation.check_date_out}}</td>
+                <td>{{reservation.number_adults}}</td>
+                <td>{{reservation.number_adults}}</td>
+                <td><button value="Update" class="button-update-reservation" (click)=setUpdateReservation(reservation)>Update</button></td> <td><button value="Delete" class="button-delete-reservation" (click)=deleteReservation(reservation)>Delete</button></td>           
+              </tr>
+           </table>
+        </ng-container>
+    </fieldset>
+  </div>
+  <app-back-to-menu></app-back-to-menu>

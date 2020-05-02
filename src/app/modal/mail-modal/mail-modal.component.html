@@ -1,0 +1,11 @@
+<div class="div-mail-form">
+    <img src="./assets/Close-icon.png" (click)=closeEmailForm()/>
+    <fieldset class="fieldset-mail-form">
+      <legend><b>Mail Form</b></legend>
+        <form #sendEmailForm="ngForm" (ngSubmit)="sendEmail(sendEmailForm)">
+          <span class="span-mail-form"><label for="Subject" class="reservation-mail-label">Subject:</label><input name="subject" class="reservation-mail-input" type="text" [(ngModel)]="emailSubject"></span>
+          <span class="span-mail-form"><label for="content" class="reservation-mail-label">Content:</label><textarea name="content" [(ngModel)]="emailContent"></textarea></span>            
+          <input value="Send" class="reservation-mail-submit-button" type=submit/>
+        </form>
+    </fieldset>  
+</div>

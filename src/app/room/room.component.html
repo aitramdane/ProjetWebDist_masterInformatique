@@ -1,0 +1,33 @@
+<div class= "div-img" [ngStyle]="{ 'backgroundImage': getUrl() }">
+<app-message-modal *ngIf="displayMessageModal" [messageModal]="messageModal"></app-message-modal>
+<div class="div-add-room">
+	<fieldset>
+        <legend><b>Room management</b></legend>
+		  <form #addRoomForm="ngForm" (ngSubmit)="saveOrUpdateRoom(addRoomForm)">
+			<span><label for="Floor No" class="room-label">Floor No:</label><input name="floor_no" class="room-input" type="Number" required [(ngModel)]="room.floor_no"></span>
+			 <span><label for="Type" class="room-label">Type:</label><input name="room_type_id" class="room-input" type="Number" required [(ngModel)]="room.room_type_id"></span>
+			 <span><label for="Status" class="room-label">Status:</label><input name="room_status_id" class="room-input" type="Number" required [(ngModel)]="room.room_status_id"><input [value]="actionButton" class="room-submit-button" type=submit [disabled]="!addRoomForm.form.valid"/></span>
+			 <span class="span-room-submit"></span>
+		  </form>
+		  <button class="clear-form-button" (click)="clearForm(addRoomForm)">Clear Form</button>
+	</fieldset>
+</div>
+<div class="div-search-Room"> 
+	<fieldset class="fieldset-search-room">
+        <legend><b>Search Rooms Form</b></legend>
+		  <form #searchRoomForm="ngForm" (ngSubmit)="searchRoomsByType(searchRoomForm)">
+		  	 <label for="Search By" class="search-label">Search By:</label><select class="search-select" name="type" required [(ngModel)]="displayType"><option *ngFor="let type of types" [value]="type">{{type}}</option></select>
+			 <ng-container *ngIf="displayType==='Type'"><label for="Type" class="search-label">Type:</label><input name="type" class="search-input" type="text" required [(ngModel)]=roomType></ng-container>
+			 <ng-container *ngIf="displayType==='Status'"><label for="Status" class="search-label">Status:</label><input name="status" class="search-input" type="text" required [(ngModel)]=status></ng-container>
+			 <input value="Search" class="search-submit-button" type=submit [disabled]="!searchRoomForm.form.valid"/>
+		  </form>
+		  <br/><br/>
+		  <ng-container *ngIf="isNoResult && isFormSubmitted"><span class="span-no-result">No Result</span></ng-container>
+		  
+		  
+
+		  
+	</fieldset>
+</div>
+
+<app-back-to-menu></app-back-to-menu>

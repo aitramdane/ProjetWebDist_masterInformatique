@@ -1,0 +1,23 @@
+
+<div class= "div-img" [ngStyle]="{ 'backgroundImage': getUrl() }">
+<div class="div-header">
+  <div class= 'div-text'>
+    <h1>
+      Welcom to Hotel management system {{ title }}!
+    </h1>
+  </div>
+  </div>
+  <div class="div-sub-header">
+    <div class="div-button-menu">
+      <button class="button-menu-room" (click)="gotoRoomPage()">Rooms Management</button>
+    </div>
+    <div class="div-button-menu">
+      <button class="button-menu-client" (click)="gotoClientPage()">Clients Management</button>
+    </div>
+    <div class="div-button-menu">
+      <button class="button-menu-Reservation" (click)="gotoReservationPage()">Reservations Management</button>
+    </div>
+  </div>
+</div>
+
+  

@@ -1,0 +1,53 @@
+<div class= "div-img" [ngStyle]="{ 'backgroundImage': getUrl() }">
+<app-message-modal *ngIf="displayMessageModal" [messageModal]="messageModal"></app-message-modal>
+<div class="div-add-client">
+    <fieldset>
+          <legend><b>{{titleSaveOrUpdate}}</b></legend>
+        <form #addClientForm="ngForm" (ngSubmit)="saveOrUpdateClient(addClientForm)">
+           <span><label for="First Name" class="client-label">First Name:</label><input name="firstName" class="client-input" type="text" required [(ngModel)]="client.firstName"></span>
+           <span><label for="Last Name" class="client-label">Last Name:</label><input name="lastName" class="client-input" type="text" required [(ngModel)]="client.lastName"></span>
+           <span><label for="Job" class="client-label">Job:</label><input name="job" class="client-input" type="text" required [(ngModel)]="client.job"></span>
+           <span><label for="Address" class="client-label">Address:</label><input name="address" class="client-input" type="text" required [(ngModel)]="client.address"></span>
+           <span><label for="Country" class="client-label">Country:</label><input name="country" class="client-input" type="text" required [(ngModel)]="client.country"></span>
+           <span><label for="City" class="client-label">City:</label><input name="city" class="client-input" type="text" required [(ngModel)]="client.city"></span>
+           <span><label for="Email" class="client-label">Email:</label><input name="email" class="client-input" type="text" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" required [(ngModel)]="client.email"></span>
+           <span><label for="Phone" class="client-label">Phone Number:</label><input name="phone" class="client-input" type="text"  required [(ngModel)]="client.phone"><input [value]="actionButton" class="client-submit-button" type=submit [disabled]="!addClientForm.form.valid"/></span>
+        </form>
+        <button class="clear-form-button" (click)="clearForm(addClientForm)">Clear Form</button>
+    </fieldset>
+  </div>
+  <div class="div-search-client"> 
+    <fieldset class="fieldset-search-client">
+          <legend><b>Search Client Form</b></legend>
+        <form #searchClientForm="ngForm" (ngSubmit)="searchClientsByType(searchClientForm)">
+           <label for="Search By" class="search-label">Search By:</label><select class="search-select" name="type" required [(ngModel)]="displayType"><option *ngFor="let type of types" [value]="type">{{type}}</option></select>
+         <ng-container *ngIf="displayType==='Email'"><label for="Email" class="search-label">Email:</label><input name="email" class="search-input" type="text" pattern="[A-Za-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" required [(ngModel)]=email></ng-container>
+         <ng-container *ngIf="displayType==='Last Name'"><label for="Last Name" class="search-label">Last Name:</label><input name="lastName" class="search-input" type="text" required [(ngModel)]=lastName></ng-container>
+         <input value="Search" class="search-submit-button" type=submit [disabled]="!searchClientForm.form.valid"/>
+        </form>
+        <br/><br/>
+        <ng-container *ngIf="isNoResult && isFormSubmitted"><span class="span-no-result">No Result</span></ng-container>
+        <ng-container *ngIf="!isNoResult && isFormSubmitted">
+           <table>
+              <tr><th *ngFor="let head of headsTab">{{head}}</th><th></th><th></th></tr>
+              <tr class="" *ngFor="let client of searchClientsResult">
+                <td>{{client.firstName}}</td>
+                <td>{{client.lastName}}</td>
+                <td>{{client.email}}</td>
+                <td>{{client.job}}</td>
+                <td>{{client.address}}</td>
+                <td>{{client.country}}</td>
+                <td>{{client.city}}</td>
+                <td>{{client.phone}}</td>
+                <td><button value="Update" class="button-update-client" (click)=setUpdateClient(client)>Update</button></td><td><button value="Delete" class="button-delete-client" (click)=deleteClient(client)>Delete</button></td><td><button *ngIf="true" value="Send Email" class="button-send-email-client" (click)=displaySendEmailForm(client.id) [disabled]="disabledBackground"><img src="./assets/mail.jpg"/></button></td>
+              </tr>
+           </table>
+        </ng-container>
+    </fieldset>
+  </div>
+  <app-mail-modal *ngIf="isDisplaySendEmailForm" [clientId]="clientId" (unDisplayModal)="closeEmailForm()"></app-mail-modal>
+
+  <app-back-to-menu></app-back-to-menu>
+</div>
+
+
