@@ -35,7 +35,7 @@ public class ProjectLibApplication {
 
 	private ApiInfo apiInfo() {
 		return new ApiInfoBuilder().title("Project Spring Boot REST API Documentation")
-				.description("REST APIs For Managing Books reservations in a hotel")
+				.description("REST APIs For Managing reservations in a hotel")
 				.contact("noreply.htl7@gmail.com")
 				.version("1.0")
 				.build();
